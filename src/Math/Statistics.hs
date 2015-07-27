@@ -53,7 +53,7 @@ module Math.Statistics ( -- * Different mean variants
 import Data.List
 import Data.Ord (comparing)
 
--- |Numerically stable mean
+-- | Numerically stable mean
 mean :: Fractional a => [a] -> a
 mean x = fst $ foldl' addElement (0,0) x
     where
@@ -63,11 +63,11 @@ mean x = fst $ foldl' addElement (0,0) x
 meanWgh :: Floating a => [(a,a)] -> a
 meanWgh xs = (sum . map (uncurry (*)) $ xs) / (sum . map snd $ xs)
 
--- |Same as 'mean'
+-- | Same as 'mean'
 average :: Fractional a => [a] -> a
 average = mean
 
--- |Harmonic mean
+-- | Harmonic mean
 harmean :: (Fractional a) => [a] -> a
 harmean xs = fromIntegral (length xs) / (sum $ map (1/) xs)
 
@@ -75,7 +75,7 @@ harmean xs = fromIntegral (length xs) / (sum $ map (1/) xs)
 geomean :: (Floating a) => [a] -> a
 geomean xs = (foldr1 (*) xs)**(1 / fromIntegral (length xs))
 
--- |Median
+-- | Median
 median :: (Fractional a, Ord a) => [a] -> a
 median x | odd n  = head  $ drop (n `div` 2) x'
          | even n = mean $ take 2 $ drop i x'
@@ -120,11 +120,11 @@ stddev xs = sqrt $ var xs
 stddevp :: (Floating a) => [a] -> a
 stddevp xs = sqrt $ pvar xs
 
--- |Population variance
+-- | Population variance
 pvar :: (Fractional a) => [a] -> a
 pvar xs = centralMoment xs 2
 
--- |Unbiased estimate of sample variance
+-- | Unbiased estimate of sample variance
 var :: (Fractional b) => [b] -> b
 var xs = (var' 0 0 0 xs) / (fromIntegral $ length xs - 1)
     where
@@ -134,13 +134,13 @@ var xs = (var' 0 0 0 xs) / (fromIntegral $ length xs - 1)
            delta = x - m
            nm = m + delta/(fromIntegral $ n + 1)
 
--- |Interquartile range
+-- | Interquartile range
 iqr :: [a] -> [a]
 iqr xs = take (length xs - 2*q) $ drop q xs
     where
       q = ((length xs) + 1) `div` 4
 
--- |Kurtosis
+-- | Kurtosis
 kurt :: (Floating b) => [b] -> b
 kurt xs = ((centralMoment xs 4) / (centralMoment xs 2)^2)-3
 
@@ -166,7 +166,7 @@ quantileAsc q xs
 skew :: (Floating b) => [b] -> b
 skew xs = (centralMoment xs 3) / (centralMoment xs 2)**(3/2)
 
--- |Calculates first Pearson skewness coeffcient.
+-- | Calculates first Pearson skewness coeffcient.
 pearsonSkew1 :: (Ord a, Floating a) => [a] -> a
 pearsonSkew1 xs = 3 * (mean xs - mo) / stddev xs
     where
