@@ -3,6 +3,6 @@ import Mean_Tests (mean_tests_props)
 main = defaultMain tests
 
 tests :: TestTree
-tests = testGroup "Tests" [properties]
+tests = testGroup "Hstats tests" [properties]
 
-properties = testGroup "All Property tests" [mean_tests_props]
+properties = testGroup "All property tests" [mean_tests_props]

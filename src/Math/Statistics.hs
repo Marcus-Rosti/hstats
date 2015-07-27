@@ -73,6 +73,7 @@ harmean xs = fromIntegral (length xs) / (sum $ map (1/) xs)
 
 -- | Geometric mean
 geomean :: (Floating a) => [a] -> a
+geomean [] = 0
 geomean xs = (foldr1 (*) xs)**(1 / fromIntegral (length xs))
 
 -- | Median
