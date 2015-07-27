@@ -10,7 +10,7 @@ import Math.Statistics(mean, meanWgh, average, harmean, geomean)
 
 
 mean_tests_units = testGroup "Mean unit tests" []
-mean_tests_props = testGroup "Mean property tests" [mean_props,average_props,geomean_props,harmean_props]
+mean_tests_props = testGroup "Mean property tests" [mean_props,average_props,geomean_props,harmean_props,meanWgh_props]
 
 
 trunk :: (Fractional a, RealFrac a) => a -> a
@@ -29,10 +29,20 @@ average_props = testGroup "Average properties"
 geomean_props = testGroup "Geometric mean properties"
     [ SC.testProperty "Should return the nth root of the product" $
         \x -> (trunk $ (product (x::[Double])) ** (1/fromIntegral (length x))) == (trunk $ geomean x)|| x == [] || (isNaN.geomean) x
-
     ]
 
 harmean_props = testGroup "Harmonic mean properties" 
     [ SC.testProperty "Should return the harmonic mean" $
         \x -> harmean (x::[Double]) == (fromIntegral (length x )) / (sum (map ((/) 1) x)) || x == [] || (isNaN.harmean) x
+    ]
+
+sumProduct :: Floating a => [a] -> [a] -> a
+sumProduct x y = sum $ zipWith (*) x y
+
+weightedAverage :: Floating a => [a] -> [a] -> a
+weightedAverage x y = (sumProduct y x) / (sum y)
+
+meanWgh_props = testGroup "Weighted mean properties" 
+    [ SC.testProperty "Should return a weighted mean" $
+        \xs -> (weightedAverage (map fst (xs :: Floating a => [(a,a)])) (map snd xs)) == (meanWgh xs) || xs == []
     ]
